@@ -6,8 +6,11 @@ import com.example.springhexagonal.application.required.MemberRepository;
 import com.example.springhexagonal.domain.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 @Service
+@Validated
 @RequiredArgsConstructor
 public class MemberService implements MemberRegister {
 
@@ -15,6 +18,7 @@ public class MemberService implements MemberRegister {
     private final EmailSender emailSender;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     @Override
     public Member register(MemberRegisterRequest registerRequest) {
         /* 파라미터, 시스템 check */

@@ -1,10 +1,8 @@
 package com.example.springhexagonal.application.provided;
 
 import com.example.springhexagonal.HexagonalTestConfiguration;
-import com.example.springhexagonal.domain.DuplicateEmailException;
-import com.example.springhexagonal.domain.Member;
-import com.example.springhexagonal.domain.MemberFixture;
-import com.example.springhexagonal.domain.MemberStatus;
+import com.example.springhexagonal.domain.*;
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
@@ -33,5 +31,17 @@ public record MemberRegisterTest(MemberRegister memberRegister) {
 
         assertThatThrownBy(() -> memberRegister.register(MemberFixture.createMemberRegisterRequest()))
                 .isInstanceOf(DuplicateEmailException.class);
+    }
+
+    @Test
+    void memberRegisterRequestFail() {
+        invalidRequest(new MemberRegisterRequest("swye199@gmail.com", "k", "longSecret"));
+        invalidRequest(new MemberRegisterRequest("swye199@gmail.com", "k".repeat(25), "longSecret"));
+        invalidRequest(new MemberRegisterRequest("swye199gmail", "kkkkkk", "longSecret"));
+    }
+
+    private void invalidRequest(MemberRegisterRequest invalid) {
+        assertThatThrownBy(() -> memberRegister.register(invalid))
+                .isInstanceOf(ConstraintViolationException.class);
     }
 }
