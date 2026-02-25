@@ -1,5 +1,6 @@
 package com.example.springhexagonal.application;
 
+import com.example.springhexagonal.application.provided.MemberFinder;
 import com.example.springhexagonal.application.provided.MemberRegister;
 import com.example.springhexagonal.application.required.EmailSender;
 import com.example.springhexagonal.application.required.MemberRepository;
@@ -12,8 +13,9 @@ import org.springframework.validation.annotation.Validated;
 @Service
 @Validated
 @RequiredArgsConstructor
-public class MemberService implements MemberRegister {
+public class MemberModifyService implements MemberRegister {
 
+    private final MemberFinder memberFinder;
     private final MemberRepository memberRepository;
     private final EmailSender emailSender;
     private final PasswordEncoder passwordEncoder;
@@ -34,6 +36,16 @@ public class MemberService implements MemberRegister {
         sendRegisterEmail(member);
 
         return member;
+    }
+
+    @Transactional
+    @Override
+    public Member activate(Long memberId) {
+        Member member = memberFinder.find(memberId);
+
+        member.activate();
+
+        return memberRepository.save(member);
     }
 
     private void sendRegisterEmail(Member member) {
