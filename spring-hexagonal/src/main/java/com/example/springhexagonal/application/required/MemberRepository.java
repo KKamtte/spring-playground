@@ -4,7 +4,6 @@ import com.example.springhexagonal.domain.Email;
 import com.example.springhexagonal.domain.Member;
 import org.springframework.data.repository.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
