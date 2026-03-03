@@ -1,6 +1,6 @@
 package com.example.springhexagonal.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,12 +16,8 @@ import static java.util.Objects.requireNonNull;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @NaturalIdCache // 영속 컨텍스트 안에서 체크
-public class Member {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Member extends AbstractEntity {
 
-    @Embedded
     @NaturalId
     private Email email;
 
@@ -29,7 +25,6 @@ public class Member {
 
     private String passwordHash;
 
-    @Enumerated(EnumType.STRING)
     private MemberStatus status;
 
     public static Member register(MemberRegisterRequest createRequest, PasswordEncoder passwordEncoder) {

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://www.hibernate.org/xsd/orm/mapping"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://www.hibernate.org/xsd/orm/mapping
+                                     https://hibernate.org/xsd/orm/mapping/mapping-3.1.0.xsd">
+
+    <access>FIELD</access>
+
+    <!-- AbstractEntity: @MappedSuperclass -->
+    <mapped-superclass class="com.example.springhexagonal.domain.AbstractEntity">
+        <attributes>
+            <!-- @Id @GeneratedValue(strategy = GenerationType.IDENTITY) -->
+            <id name="id">
+                <generated-value strategy="IDENTITY"/>
+            </id>
+        </attributes>
+    </mapped-superclass>
+
+    <!--
+        Member: @Entity
+        @NaturalIdCache 는 orm.xml 에서 지원되지 않으므로 Java 클래스에 유지
+    -->
+    <entity class="com.example.springhexagonal.domain.Member">
+        <!-- @Table(name = "MEMBER", uniqueConstraints = @UniqueConstraint(...)) -->
+        <table name="member">
+            <unique-constraint name="UK_MEMBER_EMAIL_ADDRESS">
+                <column-name>email_address</column-name>
+            </unique-constraint>
+        </table>
+        <attributes>
+            <!-- @Embedded @NaturalId -->
+            <natural-id>
+                <embedded name="email"/>
+            </natural-id>
+            <!-- @Column(length = 100, nullable = false) -->
+            <basic name="nickname">
+                <column length="100" nullable="false"/>
+            </basic>
+            <!-- @Column(length = 200, nullable = false) -->
+            <basic name="passwordHash">
+                <column name="password_hash" length="200" nullable="false"/>
+            </basic>
+            <!-- @Enumerated(EnumType.STRING) @Column(length = 50, nullable = false) -->
+            <basic name="status">
+                <column length="50" nullable="false"/>
+                <enumerated>STRING</enumerated>
+            </basic>
+        </attributes>
+    </entity>
+
+    <!-- Email: @Embeddable -->
+    <embeddable class="com.example.springhexagonal.domain.Email">
+        <attributes>
+            <!-- @Column(name = "email address", length = 150, nullable = false) -->
+            <basic name="address">
+                <column name="email_address" length="150" nullable="false"/>
+            </basic>
+        </attributes>
+    </embeddable>
+
+</entity-mappings>
