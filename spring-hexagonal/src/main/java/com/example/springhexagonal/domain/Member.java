@@ -13,7 +13,7 @@ import static java.util.Objects.requireNonNull;
 
 @Entity
 @Getter
-@ToString
+@ToString(callSuper = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @NaturalIdCache // 영속 컨텍스트 안에서 체크
 public class Member extends AbstractEntity {
