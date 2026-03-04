@@ -1,7 +1,7 @@
 package com.example.springhexagonal.adapter.integration;
 
-import com.example.springhexagonal.application.required.EmailSender;
-import com.example.springhexagonal.domain.Email;
+import com.example.springhexagonal.application.member.required.EmailSender;
+import com.example.springhexagonal.domain.shared.Email;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Fallback;
 import org.springframework.stereotype.Component;

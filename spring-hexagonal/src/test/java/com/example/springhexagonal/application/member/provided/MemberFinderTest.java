@@ -1,7 +1,7 @@
-package com.example.springhexagonal.application.provided;
+package com.example.springhexagonal.application.member.provided;
 
 import com.example.springhexagonal.HexagonalTestConfiguration;
-import com.example.springhexagonal.domain.Member;
+import com.example.springhexagonal.domain.member.Member;
 import com.example.springhexagonal.domain.MemberFixture;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;

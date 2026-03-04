@@ -1,6 +1,7 @@
-package com.example.springhexagonal.application.required;
+package com.example.springhexagonal.application.member.required;
 
-import com.example.springhexagonal.domain.Member;
+import com.example.springhexagonal.domain.member.Member;
+import com.example.springhexagonal.domain.member.MemberStatus;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,11 @@ class MemberRepositoryTest {
         assertThat(member.getId()).isNotNull();
 
         entityManager.flush();
+        entityManager.clear();
+
+        Member found = memberRepository.findById(member.getId()).orElseThrow();
+        assertThat(found.getStatus()).isEqualTo(MemberStatus.PENDING);
+        assertThat(found.getDetail().getRegisteredAt()).isNotNull();
     }
 
     @Test

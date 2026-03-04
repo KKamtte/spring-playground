@@ -1,9 +1,9 @@
-package com.example.springhexagonal.domain;
+package com.example.springhexagonal.domain.shared;
 
 import java.util.regex.Pattern;
 
 public record Email(String address) {
-    private static  final Pattern EMAIL_PATTERN =
+    private static final Pattern EMAIL_PATTERN =
             Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
 
     public Email {

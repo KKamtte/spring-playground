@@ -1,6 +1,6 @@
 package com.example.springhexagonal.adapter.integration;
 
-import com.example.springhexagonal.domain.Email;
+import com.example.springhexagonal.domain.shared.Email;
 import org.junit.jupiter.api.Test;
 import org.junitpioneer.jupiter.StdIo;
 import org.junitpioneer.jupiter.StdOut;

@@ -1,7 +1,7 @@
-package com.example.springhexagonal.application.provided;
+package com.example.springhexagonal.application.member.provided;
 
-import com.example.springhexagonal.domain.Member;
-import com.example.springhexagonal.domain.MemberRegisterRequest;
+import com.example.springhexagonal.domain.member.Member;
+import com.example.springhexagonal.domain.member.MemberRegisterRequest;
 import jakarta.validation.Valid;
 
 /**

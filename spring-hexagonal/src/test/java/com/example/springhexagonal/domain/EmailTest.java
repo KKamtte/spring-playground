@@ -1,9 +1,9 @@
 package com.example.springhexagonal.domain;
 
+import com.example.springhexagonal.domain.shared.Email;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class EmailTest {
 

@@ -1,6 +1,6 @@
-package com.example.springhexagonal.application.required;
+package com.example.springhexagonal.application.member.required;
 
-import com.example.springhexagonal.domain.Email;
+import com.example.springhexagonal.domain.shared.Email;
 
 /**
  * 이메일을 발송한다.

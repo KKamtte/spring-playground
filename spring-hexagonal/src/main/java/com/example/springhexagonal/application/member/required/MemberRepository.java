@@ -1,7 +1,7 @@
-package com.example.springhexagonal.application.required;
+package com.example.springhexagonal.application.member.required;
 
-import com.example.springhexagonal.domain.Email;
-import com.example.springhexagonal.domain.Member;
+import com.example.springhexagonal.domain.shared.Email;
+import com.example.springhexagonal.domain.member.Member;
 import org.springframework.data.repository.Repository;
 
 import java.util.Optional;

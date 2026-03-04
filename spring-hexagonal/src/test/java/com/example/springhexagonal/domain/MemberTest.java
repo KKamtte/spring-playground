@@ -1,5 +1,9 @@
 package com.example.springhexagonal.domain;
 
+import com.example.springhexagonal.domain.member.Member;
+import com.example.springhexagonal.domain.member.MemberInfoUpdateRequest;
+import com.example.springhexagonal.domain.member.MemberStatus;
+import com.example.springhexagonal.domain.member.PasswordEncoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,13 +26,16 @@ class MemberTest {
     @Test
     void registerMember() {
         assertThat(member.getStatus()).isEqualTo(MemberStatus.PENDING);
+        assertThat(member.getDetail().getRegisteredAt()).isNotNull();
     }
 
     @Test
     void activate() {
+        assertThat(member.getDetail().getActivatedAt()).isNull();
         member.activate();
 
         assertThat(member.getStatus()).isEqualTo(MemberStatus.ACTIVE);
+        assertThat(member.getDetail().getActivatedAt()).isNotNull();
     }
 
     @Test
@@ -47,6 +54,7 @@ class MemberTest {
         member.deactivate();
 
         assertThat(member.getStatus()).isEqualTo(MemberStatus.DEACTIVATED);
+        assertThat(member.getDetail().getDeactivatedAt()).isNotNull();
     }
 
     @Test
@@ -101,5 +109,17 @@ class MemberTest {
         }).isInstanceOf(IllegalArgumentException.class);
 
         Member.register(createMemberRegisterRequest(), passwordEncoder);
+    }
+
+    @Test
+    void updateInfo() {
+        member.activate();
+
+        var request = new MemberInfoUpdateRequest("update", "update11", "소개");
+        member.updateInfo(request);
+
+        assertThat(member.getNickname()).isEqualTo(request.nickname());
+        assertThat(member.getDetail().getProfile().address()).isEqualTo(request.profileAddress());
+        assertThat(member.getDetail().getIntroduction()).isEqualTo(request.introduction());
     }
 }

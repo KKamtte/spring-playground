@@ -20,7 +20,7 @@
         Member: @Entity
         @NaturalIdCache 는 orm.xml 에서 지원되지 않으므로 Java 클래스에 유지
     -->
-    <entity class="com.example.springhexagonal.domain.Member">
+    <entity class="com.example.springhexagonal.domain.member.Member">
         <!-- @Table(name = "MEMBER", uniqueConstraints = @UniqueConstraint(...)) -->
         <table name="member">
             <unique-constraint name="UK_MEMBER_EMAIL_ADDRESS">
@@ -49,7 +49,7 @@
     </entity>
 
     <!-- Email: @Embeddable -->
-    <embeddable class="com.example.springhexagonal.domain.Email">
+    <embeddable class="com.example.springhexagonal.domain.shared.Email">
         <attributes>
             <!-- @Column(name = "email address", length = 150, nullable = false) -->
             <basic name="address">

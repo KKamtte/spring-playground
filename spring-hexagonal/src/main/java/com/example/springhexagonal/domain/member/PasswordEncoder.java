@@ -1,4 +1,4 @@
-package com.example.springhexagonal.domain;
+package com.example.springhexagonal.domain.member;
 
 public interface PasswordEncoder {
     String encode(String password);

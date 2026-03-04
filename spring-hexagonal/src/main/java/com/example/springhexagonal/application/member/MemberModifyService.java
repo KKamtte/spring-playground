@@ -1,10 +1,14 @@
-package com.example.springhexagonal.application;
+package com.example.springhexagonal.application.member;
 
-import com.example.springhexagonal.application.provided.MemberFinder;
-import com.example.springhexagonal.application.provided.MemberRegister;
-import com.example.springhexagonal.application.required.EmailSender;
-import com.example.springhexagonal.application.required.MemberRepository;
-import com.example.springhexagonal.domain.*;
+import com.example.springhexagonal.application.member.provided.MemberFinder;
+import com.example.springhexagonal.application.member.provided.MemberRegister;
+import com.example.springhexagonal.application.member.required.EmailSender;
+import com.example.springhexagonal.application.member.required.MemberRepository;
+import com.example.springhexagonal.domain.member.DuplicateEmailException;
+import com.example.springhexagonal.domain.member.Member;
+import com.example.springhexagonal.domain.member.MemberRegisterRequest;
+import com.example.springhexagonal.domain.member.PasswordEncoder;
+import com.example.springhexagonal.domain.shared.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

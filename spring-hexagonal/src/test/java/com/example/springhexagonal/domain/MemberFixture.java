@@ -1,5 +1,8 @@
 package com.example.springhexagonal.domain;
 
+import com.example.springhexagonal.domain.member.MemberRegisterRequest;
+import com.example.springhexagonal.domain.member.PasswordEncoder;
+
 public class MemberFixture {
     public static MemberRegisterRequest createMemberRegisterRequest() {
         return createMemberRegisterRequest("swye199@gmail.com");

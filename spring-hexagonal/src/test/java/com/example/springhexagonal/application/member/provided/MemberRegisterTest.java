@@ -1,7 +1,11 @@
-package com.example.springhexagonal.application.provided;
+package com.example.springhexagonal.application.member.provided;
 
 import com.example.springhexagonal.HexagonalTestConfiguration;
 import com.example.springhexagonal.domain.*;
+import com.example.springhexagonal.domain.member.DuplicateEmailException;
+import com.example.springhexagonal.domain.member.Member;
+import com.example.springhexagonal.domain.member.MemberRegisterRequest;
+import com.example.springhexagonal.domain.member.MemberStatus;
 import jakarta.persistence.EntityManager;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
@@ -16,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @Transactional
 @Import(HexagonalTestConfiguration.class)
 //@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-record MemberRegisterTest(MemberRegister memberRegister, EntityManager entityManager) {
+record MemberRegisterTest(com.example.springhexagonal.application.member.provided.MemberRegister memberRegister, EntityManager entityManager) {
 
     @Test
     void register() {

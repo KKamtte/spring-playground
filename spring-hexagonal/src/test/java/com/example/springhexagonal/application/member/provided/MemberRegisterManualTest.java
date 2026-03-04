@@ -1,12 +1,12 @@
-//package com.example.springhexagonal.application.provided;
+//package com.example.springhexagonal.application.member.provided;
 //
 //import com.example.springhexagonal.application.MemberService;
-//import com.example.springhexagonal.application.required.EmailSender;
-//import com.example.springhexagonal.application.required.MemberRepository;
-//import com.example.springhexagonal.domain.Email;
-//import com.example.springhexagonal.domain.Member;
+//import com.example.springhexagonal.application.member.required.EmailSender;
+//import com.example.springhexagonal.application.member.required.MemberRepository;
+//import com.example.springhexagonal.domain.shared.Email;
+//import com.example.springhexagonal.domain.member.Member;
 //import com.example.springhexagonal.domain.MemberFixture;
-//import com.example.springhexagonal.domain.MemberStatus;
+//import com.example.springhexagonal.domain.member.MemberStatus;
 //import org.junit.jupiter.api.Test;
 //import org.mockito.Mockito;
 //import org.springframework.test.util.ReflectionTestUtils;
