@@ -4,10 +4,7 @@ import com.example.springhexagonal.application.member.provided.MemberFinder;
 import com.example.springhexagonal.application.member.provided.MemberRegister;
 import com.example.springhexagonal.application.member.required.EmailSender;
 import com.example.springhexagonal.application.member.required.MemberRepository;
-import com.example.springhexagonal.domain.member.DuplicateEmailException;
-import com.example.springhexagonal.domain.member.Member;
-import com.example.springhexagonal.domain.member.MemberRegisterRequest;
-import com.example.springhexagonal.domain.member.PasswordEncoder;
+import com.example.springhexagonal.domain.member.*;
 import com.example.springhexagonal.domain.shared.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -48,6 +45,26 @@ public class MemberModifyService implements MemberRegister {
         Member member = memberFinder.find(memberId);
 
         member.activate();
+
+        return memberRepository.save(member);
+    }
+
+    @Transactional
+    @Override
+    public Member deactivate(Long memberId) {
+        Member member = memberFinder.find(memberId);
+
+        member.deactivate();
+
+        return memberRepository.save(member);
+    }
+
+    @Transactional
+    @Override
+    public Member updateInfo(Long memberId, MemberInfoUpdateRequest memberInfoUpdateRequest) {
+        Member member = memberFinder.find(memberId);
+
+        member.updateInfo(memberInfoUpdateRequest);
 
         return memberRepository.save(member);
     }

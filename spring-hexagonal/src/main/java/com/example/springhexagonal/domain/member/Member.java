@@ -2,15 +2,10 @@ package com.example.springhexagonal.domain.member;
 
 import com.example.springhexagonal.domain.AbstractEntity;
 import com.example.springhexagonal.domain.shared.Email;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
 import org.springframework.util.Assert;
 
@@ -18,14 +13,12 @@ import java.util.Objects;
 
 import static java.util.Objects.requireNonNull;
 
-@Entity
 @Getter
 @ToString(callSuper = true, exclude = "detail")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @NaturalIdCache // 영속 컨텍스트 안에서 체크
 public class Member extends AbstractEntity {
 
-    @NaturalId
     private Email email;
 
     private String nickname;
@@ -34,7 +27,6 @@ public class Member extends AbstractEntity {
 
     private MemberStatus status;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private MemberDetail detail;
 
     public static Member register(MemberRegisterRequest createRequest, PasswordEncoder passwordEncoder) {

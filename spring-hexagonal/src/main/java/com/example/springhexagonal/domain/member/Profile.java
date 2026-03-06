@@ -1,10 +1,7 @@
 package com.example.springhexagonal.domain.member;
 
-import jakarta.persistence.Embeddable;
-
 import java.util.regex.Pattern;
 
-@Embeddable
 public record Profile(String address) {
     private static  final Pattern PROFILE_ADDRESS_PATTEN =
             Pattern.compile("[a-z0-9]+");

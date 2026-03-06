@@ -1,11 +1,8 @@
 package com.example.springhexagonal.application.member.provided;
 
 import com.example.springhexagonal.HexagonalTestConfiguration;
-import com.example.springhexagonal.domain.*;
-import com.example.springhexagonal.domain.member.DuplicateEmailException;
-import com.example.springhexagonal.domain.member.Member;
-import com.example.springhexagonal.domain.member.MemberRegisterRequest;
-import com.example.springhexagonal.domain.member.MemberStatus;
+import com.example.springhexagonal.domain.MemberFixture;
+import com.example.springhexagonal.domain.member.*;
 import jakarta.persistence.EntityManager;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
@@ -13,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -47,14 +45,13 @@ record MemberRegisterTest(com.example.springhexagonal.application.member.provide
 
     @Test
     void activate() {
-        Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
-        entityManager.flush();
-        entityManager.clear();
+        Member member = registerMember();
 
         member = memberRegister.activate(member.getId());
         entityManager.flush();
 
         assertThat(member.getStatus()).isEqualTo(MemberStatus.ACTIVE);
+        assertThat(member.getDetail().getActivatedAt()).isNotNull();
     }
 
     @Test
@@ -76,6 +73,41 @@ record MemberRegisterTest(com.example.springhexagonal.application.member.provide
         entityManager.clear();
         Member fromDb = entityManager.find(Member.class, member.getId());
         assertThat(fromDb.getStatus()).isEqualTo(MemberStatus.ACTIVE); // DB의 ACTIVE 반환
+    }
+
+    @Test
+    void deactivate() {
+        Member member = registerMember();
+
+        memberRegister.activate(member.getId());
+        entityManager.flush();
+        entityManager.clear();
+
+        member = memberRegister.deactivate(member.getId());
+
+        assertThat(member.getStatus()).isEqualTo(MemberStatus.DEACTIVATED);
+        assertThat(member.getDetail().getDeactivatedAt()).isNotNull();
+    }
+
+    @Test
+    void updateInfo() {
+        Member member = registerMember();
+
+        memberRegister.activate(member.getId());
+        entityManager.flush();
+        entityManager.clear();
+
+        var request = new MemberInfoUpdateRequest("update", "update11", "소개");
+        member = memberRegister.updateInfo(member.getId(), request);
+
+        assertThat(member.getDetail().getProfile().address()).isEqualTo("update11");
+    }
+
+    private Member registerMember() {
+        Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
+        entityManager.flush();
+        entityManager.clear();
+        return member;
     }
 
     private void invalidRequest(MemberRegisterRequest invalid) {
