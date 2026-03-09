@@ -11,14 +11,11 @@ class ProfileTest {
     void profile() {
         new Profile("test11");
         new Profile("test22");
+        new Profile("");
     }
 
     @Test
     void profileFail() {
-        // 빈문자
-        assertThatThrownBy(() -> new Profile(""))
-                .isInstanceOf(IllegalArgumentException.class);
-
         // 15 자리 넘는 경우
         assertThatThrownBy(() -> new Profile("a".repeat(16)))
                 .isInstanceOf(IllegalArgumentException.class);

@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -18,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @Transactional
 @Import(HexagonalTestConfiguration.class)
 //@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-record MemberRegisterTest(com.example.springhexagonal.application.member.provided.MemberRegister memberRegister, EntityManager entityManager) {
+record MemberRegisterTest(MemberRegister memberRegister, EntityManager entityManager) {
 
     @Test
     void register() {
@@ -103,8 +102,51 @@ record MemberRegisterTest(com.example.springhexagonal.application.member.provide
         assertThat(member.getDetail().getProfile().address()).isEqualTo("update11");
     }
 
+    @Test
+    void updateInfoFail() {
+        Member member = registerMember();
+        memberRegister.activate(member.getId());
+        var request = new MemberInfoUpdateRequest("update", "update11", "소개");
+        memberRegister.updateInfo(member.getId(), request);
+        entityManager.flush();
+        entityManager.clear();
+
+        Member member2 = registerMember("newuser@test.com");
+        memberRegister.activate(member2.getId());
+        entityManager.flush();
+        entityManager.clear();
+
+        // member2 는 기존의 member와 같은 프로필 주소를 사용할 수 없다.
+        assertThatThrownBy(() -> {
+            memberRegister.updateInfo(member2.getId(), new MemberInfoUpdateRequest("update2", "update11", "소개"));
+        }).isInstanceOf(DuplicateProfileException.class);
+
+        // 다른 프로필 주소로 변경 가능
+        memberRegister.updateInfo(member2.getId(), new MemberInfoUpdateRequest("update2", "update2", "소개"));
+
+        // 기존 프로필 주소를 바꾸는 것도 가능
+        memberRegister.updateInfo(member.getId(), new MemberInfoUpdateRequest("update", "update11", "소개"));
+
+        // 프로필 주소를 제거하는 것도 가능
+        memberRegister.updateInfo(member.getId(), new MemberInfoUpdateRequest("update", "", "소개"));
+        memberRegister.updateInfo(member2.getId(), new MemberInfoUpdateRequest("update2", "", "소개"));
+
+        // 프로필 주소 중복은 허용하지 않음
+        memberRegister.updateInfo(member2.getId(), new MemberInfoUpdateRequest("update2", "update2", "소개"));
+        assertThatThrownBy(() -> {
+            memberRegister.updateInfo(member.getId(), new MemberInfoUpdateRequest("update", "update2", "소개"));
+        }).isInstanceOf(DuplicateProfileException.class);
+    }
+
     private Member registerMember() {
         Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
+        entityManager.flush();
+        entityManager.clear();
+        return member;
+    }
+
+    private Member registerMember(String email) {
+        Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest(email));
         entityManager.flush();
         entityManager.clear();
         return member;
