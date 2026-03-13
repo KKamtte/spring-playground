@@ -1,6 +1,7 @@
 package com.example.springhexagonal.application.member.provided;
 
 import com.example.springhexagonal.HexagonalTestConfiguration;
+import com.example.springhexagonal.domain.member.MemberRegisterRequest;
 import com.example.springhexagonal.domain.MemberFixture;
 import com.example.springhexagonal.domain.member.*;
 import jakarta.persistence.EntityManager;

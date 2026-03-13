@@ -47,6 +47,8 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.junit-pioneer:junit-pioneer:2.3.0")
+    // 아키텍처 테스트
+    testImplementation("com.tngtech.archunit:archunit-junit5:1.4.1")
     mockitoAgent("org.mockito:mockito-core:5.21.0") { isTransitive = false }
 }
 
