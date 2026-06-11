@@ -23,9 +23,15 @@ public class IfEmpty {
         cached
                 .switchIfEmpty(Flux.defer(() -> findFromDb())) // 데이터가 있으니 무시됨
                 .subscribe(System.out::println);
+        // defer 로 감싼 이유 -> 컴파일엔 문제가 없지만 switchIfEmpty 인자를 평가하는 시점에 실행이 된다
+        // 즉, 캐시에 데이터가 있든 없든 우선 실행이 되어 사실상 캐시에 대한 효과를 누릴 수 없다.
+        cached
+                .switchIfEmpty(findFromDb()) // 데이터가 있으니 무시됨
+                .subscribe(System.out::println);
     }
 
     private static Flux<String> findFromDb() {
+        System.out.println("working");
         return Flux.just("db1", "db2", "db3");
     }
 }
