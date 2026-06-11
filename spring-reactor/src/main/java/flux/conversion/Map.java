@@ -1,4 +1,4 @@
-package flux.process;
+package flux.conversion;
 
 import reactor.core.publisher.Flux;
 
