@@ -26,6 +26,8 @@ dependencies {
         3. reactor-core: Reactor core 라이브러리
         4. jackson-databind: JSON 직렬화/역직렬화 라이브러리
     */
+    compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
 
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
