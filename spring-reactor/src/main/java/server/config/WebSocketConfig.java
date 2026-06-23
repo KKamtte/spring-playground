@@ -7,6 +7,7 @@ import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.reactive.socket.WebSocketHandler;
 import org.springframework.web.reactive.socket.server.support.WebSocketHandlerAdapter;
 import server.handler.EchoWebSocketHandler;
+import server.handler.TimeWebSocketHandler;
 
 import java.util.Map;
 
@@ -29,8 +30,12 @@ import java.util.Map;
 public class WebSocketConfig {
 
     @Bean
-    public HandlerMapping webSocketHandlerMapping(EchoWebSocketHandler echoWebSocketHandler) {
-        Map<String, WebSocketHandler> map = Map.of("/ws/echo", echoWebSocketHandler);
+    public HandlerMapping webSocketHandlerMapping(
+            EchoWebSocketHandler echoWebSocketHandler,
+            TimeWebSocketHandler timeWebSocketHandler) {
+        Map<String, WebSocketHandler> map = Map.of(
+                "/ws/echo", echoWebSocketHandler,
+                "/ws/time", timeWebSocketHandler);
 
         SimpleUrlHandlerMapping mapping = new SimpleUrlHandlerMapping();
         mapping.setUrlMap(map);
