@@ -1,5 +1,6 @@
 package board.article;
 
+import board.article.service.response.ArticlePageResponse;
 import board.article.service.response.ArticleResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -79,6 +80,15 @@ public class ArticleApiTest {
                 .uri("/v1/articles/{articleId}", articleId)
                 .retrieve()
                 .body(ArticleResponse.class);
+    }
+
+    @Test
+    void readAllTest() {
+        ArticlePageResponse response = restClient.get()
+                .uri("/v1/articles?boardId=1&pageSize=30&page=50000")
+                .retrieve()
+                .body(ArticlePageResponse.class);
+        log.info("response.getArticleCount: {}", response.getArticleCount());
     }
 
     @Getter
