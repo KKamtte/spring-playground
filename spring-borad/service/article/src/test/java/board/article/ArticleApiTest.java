@@ -6,8 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClient;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -89,6 +92,24 @@ public class ArticleApiTest {
                 .retrieve()
                 .body(ArticlePageResponse.class);
         log.info("response.getArticleCount: {}", response.getArticleCount());
+    }
+    
+    @Test
+    void readAllInfiniteScrollTest() {
+        List<ArticleResponse> articles1 = restClient.get()
+                .uri("/v1/articles/infinite-scroll?boardId=1&pageSize=5")
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<ArticleResponse>>() {
+                });
+        log.info("response.getArticle1Count: {}", articles1.size());
+
+        Long lastArticleId = articles1.getLast().getArticleId();
+        List<ArticleResponse> articles2 = restClient.get()
+                .uri("/v1/articles/infinite-scroll?boardId=1&pageSize=5&lastArticleId=%s".formatted(lastArticleId))
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<ArticleResponse>>() {
+                });
+        log.info("response.getArticle2Count: {}", articles2.size());
     }
 
     @Getter
