@@ -24,8 +24,8 @@ public class CommentService {
                 Comment.create(
                         snowflake.nextId(),
                         request.getContent(),
-                        parent == null ? null : parent.getCommentId(),
                         request.getArticleId(),
+                        parent == null ? null : parent.getCommentId(),
                         request.getWriterId()
                 )
         );

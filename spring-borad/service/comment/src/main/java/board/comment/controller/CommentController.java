@@ -25,7 +25,7 @@ public class CommentController {
         return commentService.create(request);
     }
 
-    @DeleteMapping("/v1/comments/{commentId}")
+    @DeleteMapping("/{commentId}")
     public void delete(@PathVariable("commentId") Long commentId) {
         commentService.delete(commentId);
     }
