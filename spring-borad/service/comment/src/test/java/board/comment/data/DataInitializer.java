@@ -34,11 +34,14 @@ public class DataInitializer {
         ExecutorService executorService = Executors.newFixedThreadPool(10);
         for (int i = 0; i < EXECUTE_COUNT; i++) {
             executorService.submit(() -> {
-                insert();
-                long count = latch.getCount() - 1;
-                latch.countDown();
-                if (count % 100 == 0) {
-                    log.info("remain = {}", count);
+                try {
+                    insert();
+                } finally {
+                    long count = latch.getCount() - 1;
+                    latch.countDown();
+                    if (count % 100 == 0) {
+                        log.info("remain = {}", count);
+                    }
                 }
             });
         }
@@ -54,7 +57,7 @@ public class DataInitializer {
                         snowflake.nextId(),
                         "content",
                         1L,
-                        i % 2 == 0 ? null : prev.getCommentId(),
+                        i % 2 == 1 ? null : prev.getCommentId(),
                         1L
                 );
                 prev = comment;
